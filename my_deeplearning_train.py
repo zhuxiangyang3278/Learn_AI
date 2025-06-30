@@ -4,7 +4,6 @@ from tqdm.auto import tqdm
 import pandas as pd
 import matplotlib.pyplot as plt
 
-
 # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 class EarlyStopping:
