@@ -251,7 +251,15 @@ def train_classification_model(
                 # 更新步骤
                 global_step += 1  # 增加全局步数
                 pbar.update(1)  # 更新进度条
-                pbar.set_postfix({"epoch": epoch_id, "loss": f"{loss_value:.4f}", "acc": f"{acc:.2f}%"})  # 更新进度条信息
+                # 更新进度条信息，显示当前训练轮次、训练损失和准确率，以及最近的验证损失和准确率
+                val_info = record_dict["val"][-1] if record_dict["val"] else {"loss": 0, "acc": 0}  # 获取最近的验证信息
+                pbar.set_postfix({
+                    "epoch": epoch_id,  # 显示当前训练轮次
+                    "train_loss": f"{loss_value:.4f}",  # 显示训练损失
+                    "train_acc": f"{acc:.2f}%",  # 显示训练准确率
+                    "val_loss": f"{val_info['loss']:.4f}",  # 显示验证损失
+                    "val_acc": f"{val_info['acc']:.2f}%"  # 显示验证准确率
+                })
 
     return model, record_dict  # 返回训练后的模型和训练记录
 
@@ -352,7 +360,7 @@ def train_regression_model(
                 # 更新进度条
                 pbar.update(1)  # 更新进度条
                 pbar.set_postfix(  # 更新进度条信息
-                    {"loss": f"{epoch_train_loss:.4f}", "val_loss": f"{epoch_val_loss:.4f},global_step{global_step}"})
+                    {"train_loss": f"{epoch_train_loss:.4f}", "val_loss": f"{epoch_val_loss:.4f},global_step{global_step}"})
 
     return model, record_dict  # 返回训练后的模型和训练记录
 
